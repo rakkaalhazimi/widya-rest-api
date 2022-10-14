@@ -1,20 +1,9 @@
-### Login
-
-GET http://localhost:3000/login
-Content-Type: application/json
-
-{
-    "username": "test"
-}
+### Register
+GET http://localhost:3000/register
 
 ###
 
-POST http://localhost:3000/login
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2NjU3MzAzNjUsImV4cCI6MTY2NTczMDY2NX0.OI_l_VfLOFt-5zGbwXAdXkeHRhdSe0mWmjFColVK_xY
-
-
-### Register
-GET http://localhost:3000/register
+POST http://localhost:3000/register
 Content-Type: application/json
 
 {
@@ -25,20 +14,25 @@ Content-Type: application/json
     "gender": "male"
 }
 
-###
 
-POST http://localhost:3000/register
-Content-Type: application/json
+### Login
 
-{
-
-}
+GET http://localhost:3000/login
 
 ###
 
-POST http://localhost:3000/test
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "name": "rakka"
+    "username": "rakkaalhazimi@gmail.com",
+    "password": "@Tenyom1234"
 }
+
+### Profile
+
+GET http://localhost:3000/Profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJha2thYWxoYXppbWlAZ21haWwuY29tIiwiaWF0IjoxNjY1NzgyNzYzLCJleHAiOjE2NjU3ODMwNjN9.ku8TPU09RvaBrB0NWI9x5mMvY9kokZkTmyd5Oe-serg
+
+
+###

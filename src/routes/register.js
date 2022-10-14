@@ -1,4 +1,3 @@
-const auth = require("../auth")
 const bcrypt = require("bcrypt")
 const { createUserData } = require("../model")
 const db = require("../mongo")
@@ -7,11 +6,11 @@ const express = require("express")
 const route = express.Router()
 
 // GET REQUEST
-route.post("/register", (req, res) => { res.send("register") })
+route.get("/register", (req, res) => { res.send("register") })
 
 
 // POST REQUEST
-route.get("/register",
+route.post("/register",
 
     // Register Validation
     async (req, res, next) => {
@@ -38,16 +37,14 @@ route.get("/register",
 
     // Check username in database
     async (req, res, next) => {
-        await db.collection.findOne({ username: req.body.username }).then((result) => {
+        await db.collection.findOne({ username: req.body.username }, (err, result) => {
+            if (err) res.sendStatus(500)
             if (result !== null) {
                 res.state.registerError(db.throwExistsUsername())
-                return res.state.sendResponse(res, body = "Someone owned the username")
+                return res.state.sendResponse(res, body = "Please use another username")
             }
             next()
-        }).catch((err) => {
-            if (err) res.sendStatus(500)
         })
-        
     },
 
     // Hash user's password

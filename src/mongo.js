@@ -43,12 +43,22 @@ function getUserProfile(req, res) {
     // res.send(req.user)
 }
 
-function getUserPassword(req, res) {
+// async function deleteData() {
+//     await collection.find({username: "rakkaalhazimi@gmail.com"}).toArray().then((result) => {
+//         console.log(result)
+//     })
+//     await collection.deleteMany({username: "rakkaalhazimi@gmail.com"})
+//     process.exit()
+// }
+// deleteData()
 
-}
 
 function throwExistsUsername() {
     return "Username already exists"
+}
+
+function throwIncorrectLogin() {
+    return "Incorrect username or password"
 }
 
 
@@ -76,5 +86,6 @@ module.exports = {
     insertNewUser: insertNewUser,
     isUserExists: isUserExists,
     getUserProfile: getUserProfile,
-    throwExistsUsername: throwExistsUsername
+    throwExistsUsername: throwExistsUsername,
+    throwIncorrectLogin: throwIncorrectLogin
 }

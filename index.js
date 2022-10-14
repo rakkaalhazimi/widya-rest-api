@@ -22,8 +22,12 @@ app.set('views', path.join(__dirname, "/src/views"))    // Set default views dir
 
 // Routes
 const homeRoute = require("./src/routes/home")
+const loginRoute = require("./src/routes/login")
+const profileRoute = require("./src/routes/profile")
 const registerRoute = require("./src/routes/register")
 app.use(homeRoute)
+app.use(loginRoute)
+app.use(profileRoute)
 app.use(registerRoute)
 
 

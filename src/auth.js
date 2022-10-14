@@ -1,6 +1,5 @@
 require("dotenv").config()
 
-const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const LIFE_SPAN = "5m"
 
@@ -11,10 +10,7 @@ function generateRefreshToken() {
 }
 
 function getLoginToken(req, res) {
-    if (req.body.username === undefined) {
-        return res.sendStatus(403)
-    }
-    const token = jwt.sign(req.body, generateRefreshToken(), { expiresIn: LIFE_SPAN })
+    const token = jwt.sign({ username: req.body.username }, generateRefreshToken(), { expiresIn: LIFE_SPAN })
     res.send(token)
 }
 
@@ -34,30 +30,7 @@ function authenticateToken(req, res, next) {
     })
 }
 
-// Password Authentication
-function hashPassword(req, res, next) {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) return res.sendStatus(500)
-        req.body.password = hash
-    })
-    next()
-}
-
-function authenticatePassword(req, res, next) {
-    bcrypt.compare(req.body.password, req.body.storedPassword, (err, result) => {
-        if (err) return res.sendStatus(500)
-        if (result) return next()
-        else {
-            res.state.registerError("Incorrect Password or Username")
-            let response = res.state.createResponse(body="")
-            res.send(response)
-        }
-    })
-}
-
-
 module.exports = {
-    authenticatePassword: authenticatePassword,
     authenticateToken: authenticateToken,
     getLoginToken: getLoginToken,
 }
