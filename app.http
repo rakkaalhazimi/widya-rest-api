@@ -1,0 +1,45 @@
+### Login
+
+GET http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "test"
+}
+
+###
+
+POST http://localhost:3000/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2NjU3MzAzNjUsImV4cCI6MTY2NTczMDY2NX0.OI_l_VfLOFt-5zGbwXAdXkeHRhdSe0mWmjFColVK_xY
+
+
+### Register
+
+GET http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "rakkaalhazimi@gmail.com",
+    "password": "@Tenyom1234",
+    "confirmPassword": "@Tenyom1234",
+    "fullName": "Rakka",
+    "gender": "male"
+}
+
+###
+
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:3000/test
+Content-Type: application/json
+
+{
+    "name": "rakka"
+}
