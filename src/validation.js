@@ -1,3 +1,8 @@
+// REST API validation module
+// Handle the string format of the data
+
+const { RegistrationData } = require("./model")
+
 // Constants
 const ASCII_LOWER = "abcdefghijklmnopqrstuvwxyz"
 const ASCII_UPPER = ASCII_LOWER.toUpperCase()
@@ -6,26 +11,24 @@ const SPECIAL = "!@#$%^&*()_+[]:'\\,./<>?"
 const REQUIRED = ASCII_LOWER + ASCII_UPPER + DIGIT + SPECIAL
 
 const EMAIL_REGEX = /[\w\d_]+@\w+\.(?:\w{3}|\w{2}\.\w{2})/
+const GENDER_LIST = ["male", "female"]
 const MIN_LENGTH = 8
 
-const GENDER_LIST = ["male", "female"]
-
-const VALIDATION_CHECKERS = [
+const VALIDATOR_LIST = [
     isValidUsername, 
     isValidPassword, 
-    isValidConfirmPassword,
-    isValidFullName,
+    isValidConfirmPassword, 
+    isValidFullName, 
     isValidGender
 ]
+const ERROR_LIST = [
+    throwInvalidUsername,
+    throwInvalidPassword,
+    throwInvalidConfirmPassword,
+    throwInvalidFullName,
+    throwInvalidGender
+]
 
-// Register's data template
-const registerData = {
-    username: "",
-    password: "",
-    confirmPassword: "",
-    fullName: "",
-    gender: "",
-}
 
 
 // Low-level functions
@@ -41,72 +44,52 @@ function isNotEmpty(input) {
     return input.replace(/\s+/, "").length > 0
 }
 
+function throwInvalidUsername() {
+    return "Username must be a valid email format"
+}
+function throwInvalidPassword() {
+    return `Password must be ${MIN_LENGTH} characters and contains 1 (lowercase, uppercase, digit, and special character)`
+}
+function throwInvalidConfirmPassword() {
+    return "Password and Confirm Password must be the same"
+}
+function throwInvalidFullName() {
+    return "Please enter your full name"
+}
+function throwInvalidGender() {
+    return "Please choose your gender (male/female)"
+}
+
 
 // Validation functions
+// Each receive object as parameter, then destructure it.
+// If the data is invalid, they will return the error message.
 function isValidUsername({ username }) {
-    let passed = EMAIL_REGEX.exec(username) !== null
-    return {
-        field: "username",
-        passed: passed,
-        message: passed ? "OK" : "Username must be a valid email format"
-    }
+    return EMAIL_REGEX.exec(username) !== null
 }
 
 function isValidPassword({ password }) {
-    let passed = isContains(password, REQUIRED) && isPassMinLength(password)
-    return {
-        field: "password",
-        passed: passed,
-        message: passed ? "OK" : `Password must be ${MIN_LENGTH} characters and contains 1 (lowercase, uppercase, digit, and special character)`
-    }
+    return isContains(password, REQUIRED) && isPassMinLength(password)
 }
 
 function isValidConfirmPassword({ password, confirmPassword }) {
-    let passed = password === confirmPassword
-    return {
-        field: "confirmPassword",
-        passed: passed,
-        message: passed ? "OK" : "Password and Confirm Password must be the same"
-    }
+    return password === confirmPassword
 }
 
 function isValidFullName({ fullName }) {
-    let passed = isNotEmpty(fullName)
-    return {
-        field: "fullName",
-        passed: passed,
-        message: passed ? "OK" : "Please enter your full name"
-    }
+    return isNotEmpty(fullName)
 }
 
 function isValidGender({ gender }) {
-    let passed = GENDER_LIST.some((option) => option === gender)
-    return {
-        field: "gender",
-        passed: passed,
-        message: passed ? "OK" : "Please choose your gender (male/female)"
-    }
+    return GENDER_LIST.some((option) => option === gender)
 }
 
 
 function registerValidation(req, res, next) {
-    // Default request body (handle undefined)
-    req.body = {...registerData, ...req.body}
-
-    // Create status messages
-    const status = {
-        accepted: false,
-        info: VALIDATION_CHECKERS
-    }
-
-    // Check each register data
-    status.info = status.info.map((isValid) => isValid(req.body))
-    
-    // Determine register data validity
-    status.accepted = status.info.every((data) => data.passed === true)
-
-    if (status.accepted) return res.send(status)
-    res.send(status)
+    let regData = new RegistrationData(req.body)
+    let valid = regData.checks(VALIDATOR_LIST, ERROR_LIST)
+    let response = regData.response(accepted=valid, body="")
+    res.send(response)
 }
 
 module.exports = { registerValidation: registerValidation }

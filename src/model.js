@@ -1,44 +1,45 @@
+// REST API data model
+// The purpose of this module is to unify all the response format
+// and how they return its data
+
+
+// Main data model, it can spit out raw data, generate response
+// and register errors.
 class DataModel {
-    get() {
-        return this.data
-    }
-}
-
-class Validation extends DataModel {
     constructor() {
-        super()
+        this.data = null
+        this.errors = []
     }
-    check(input, error, func) {
-        return func(input) || error
+    registerError(err) {
+        this.errors.push(err)
     }
-}
-
-
-class ResponseData extends DataModel {
-    constructor(accepted, body, error) {
-        super()
-        this.data = {
-            accepted: accepted,
-            body: body,
-            error: error
-        }
+    response(accepted, body) {
+        return { accepted: accepted, body: body, error: this.errors }
     }
 }
 
+// Validation system which can check all the data validity
+// through one method. It also register error message when the
+// validation is not fulfilled
+class ValidationModel extends DataModel {
+    constructor() { super() }
+
+    checks(functions) {
+        return functions.every((func) => func(this.data))
+    }
+}
+
+// Below classes inherit method from data model
+// It gives them the ability to spit data out and generate response
 class ProfileData extends DataModel {
-    constructor(username, fullName, gender) {
+    constructor({ username, fullName, gender }) {
         super()
-        this.data = {
-            username: username,
-            fullName: fullName,
-            gender: gender
-        }
+        this.data = { username: username, fullName: fullName, gender: gender }
     }
 }
 
-
-class RegistrationData extends Validation {
-    constructor(username, password, confirmPassword, fullName, gender) {
+class RegistrationData extends ValidationModel {
+    constructor({ username, password, confirmPassword, fullName, gender }) {
         super()
         this.data = {
             username: username,
@@ -50,9 +51,14 @@ class RegistrationData extends Validation {
     }
 }
 
+class LoginData extends ValidationModel {
+    constructor(username, password) {
+
+    }
+}
+
 
 module.exports = {
-    RestResponse: ResponseData,
     ProfileData: ProfileData,
     RegistrationData: RegistrationData
 }
