@@ -1,6 +1,6 @@
 require("dotenv").config()
 
-const collection = require("./mongo")
+const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const LIFE_SPAN = "5m"
 
@@ -34,20 +34,30 @@ function authenticateToken(req, res, next) {
     })
 }
 
-// Database Authentication
-function getUser(req, res) {
-    if (req.user === undefined) return res.sendStatus(403)
-
-    collection.findOne({}, (err, result) => {
+// Password Authentication
+function hashPassword(req, res, next) {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
         if (err) return res.sendStatus(500)
-        res.send(result)
+        req.body.password = hash
     })
-    // res.send(req.user)
+    next()
+}
+
+function authenticatePassword(req, res, next) {
+    bcrypt.compare(req.body.password, req.body.storedPassword, (err, result) => {
+        if (err) return res.sendStatus(500)
+        if (result) return next()
+        else {
+            res.state.registerError("Incorrect Password or Username")
+            let response = res.state.createResponse(body="")
+            res.send(response)
+        }
+    })
 }
 
 
 module.exports = {
+    authenticatePassword: authenticatePassword,
     authenticateToken: authenticateToken,
     getLoginToken: getLoginToken,
-    getUser: getUser
 }

@@ -1,8 +1,6 @@
 // REST API validation module
 // Handle the string format of the data
 
-const { RegistrationData } = require("./model")
-
 // Constants
 const ASCII_LOWER = "abcdefghijklmnopqrstuvwxyz"
 const ASCII_UPPER = ASCII_LOWER.toUpperCase()
@@ -13,22 +11,6 @@ const REQUIRED = ASCII_LOWER + ASCII_UPPER + DIGIT + SPECIAL
 const EMAIL_REGEX = /[\w\d_]+@\w+\.(?:\w{3}|\w{2}\.\w{2})/
 const GENDER_LIST = ["male", "female"]
 const MIN_LENGTH = 8
-
-const VALIDATOR_LIST = [
-    isValidUsername, 
-    isValidPassword, 
-    isValidConfirmPassword, 
-    isValidFullName, 
-    isValidGender
-]
-const ERROR_LIST = [
-    throwInvalidUsername,
-    throwInvalidPassword,
-    throwInvalidConfirmPassword,
-    throwInvalidFullName,
-    throwInvalidGender
-]
-
 
 
 // Low-level functions
@@ -69,7 +51,7 @@ function isValidUsername({ username }) {
 }
 
 function isValidPassword({ password }) {
-    return isContains(password, REQUIRED) && isPassMinLength(password)
+    return (isContains(password, REQUIRED) && isPassMinLength(password))
 }
 
 function isValidConfirmPassword({ password, confirmPassword }) {
@@ -85,11 +67,15 @@ function isValidGender({ gender }) {
 }
 
 
-function registerValidation(req, res, next) {
-    let regData = new RegistrationData(req.body)
-    let valid = regData.checks(VALIDATOR_LIST, ERROR_LIST)
-    let response = regData.response(accepted=valid, body="")
-    res.send(response)
+module.exports = {
+    isValidUsername: isValidUsername,
+    isValidPassword: isValidPassword,
+    isValidConfirmPassword: isValidConfirmPassword,
+    isValidFullName: isValidFullName,
+    isValidGender: isValidGender,
+    throwInvalidUsername: throwInvalidUsername,
+    throwInvalidPassword: throwInvalidPassword,
+    throwInvalidConfirmPassword: throwInvalidConfirmPassword,
+    throwInvalidFullName: throwInvalidFullName,
+    throwInvalidGender: throwInvalidGender,
 }
-
-module.exports = { registerValidation: registerValidation }
