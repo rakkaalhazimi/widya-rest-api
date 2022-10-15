@@ -3,7 +3,7 @@
 // and how they return its data
 
 
-// Main data model, it can spit out raw data, generate response
+// Main data model, it can send response, check any errors,
 // and register errors.
 class ResponseState {
     constructor() {
