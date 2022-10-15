@@ -34,7 +34,7 @@ function insertNewUser(req, res) {
 function getUserProfile(req, res) {
     if (req.user === undefined) return res.sendStatus(403)
 
-    collection.findOne({}, (err, result) => {
+    collection.findOne({username: req.user.username}, (err, result) => {
         if (err) return res.sendStatus(500)
         let profile = createProfileData(result)
         let response = res.state.createResponse(body=profile)

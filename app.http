@@ -32,7 +32,7 @@ Content-Type: application/json
 ### Profile
 
 GET http://localhost:3000/Profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJha2thYWxoYXppbWlAZ21haWwuY29tIiwiaWF0IjoxNjY1ODE0OTk0LCJleHAiOjE2NjU4MTUyOTR9.OB_5ohUzXcJ0WOK1e3JUNjWN8ZujR6j2S9BrkXohm2A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJha2thYWxoYXppbWlAZ21haWwuY29tIiwiaWF0IjoxNjY1ODIxMTUxLCJleHAiOjE2NjU4MjE0NTF9.UAomTKyJG7xIUgWu5PUnBOkLx2mfcQuiiL5hOKQKSa4
 
 
 ###
