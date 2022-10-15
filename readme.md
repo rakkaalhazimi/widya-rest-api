@@ -44,17 +44,17 @@ You can either read this or jump straight into the [documentation](#documentatio
 
 1. For the starter you can try to send request to main url to see what it shows you.
     ```
-    curl GET http://localhost:3000
+    curl GET http://localhost:5000
     ```
 
 2. How about try to register account ? let's look at the register endpoint to search for a clue.
     ```
-    curl GET http://localhost:3000/register
+    curl GET http://localhost:5000/register
     ```
 
 3. Now, let's try to register our account by using several data.
    ```
-    curl POST http://localhost:3000/register -H "Content-Type: application/json" -d "{\"username\":\"test@email.com\",\"password\": \"xxx\",\"confirmPassword\":\"xxx\",\"fullName\":\"John Doe\",\"gender\":\"Female\"}"
+    curl POST http://localhost:5000/register -H "Content-Type: application/json" -d "{\"username\":\"test@email.com\",\"password\": \"xxx\",\"confirmPassword\":\"xxx\",\"fullName\":\"John Doe\",\"gender\":\"Female\"}"
    ```
 
    It seems that we failed to create an account, that is because we need to meet every inputs format. We can see the right format if we go to the [documentation](#documentation).

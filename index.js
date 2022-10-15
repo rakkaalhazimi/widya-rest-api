@@ -5,7 +5,7 @@ const { createResponseState } = require("./src/model")
 
 // Setup
 const app = express()
-const port = 3000
+const port = 5000
 app.use(express.urlencoded({ extended: true }))         // Access form data from user
 app.use(express.json())                                 // Parse json data from response
 app.use((req, res, next) => {                         // Register response state 
