@@ -23,7 +23,7 @@ function authenticateToken(req, res, next) {
         return res.sendStatus(401)
     }
 
-    jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+    jwt.verify(token, generateRefreshToken(), (err, user) => {
         if (err) return res.sendStatus(403)
         req.user = user
         next()
