@@ -1,6 +1,8 @@
 # Widya REST API
 REST API application to test user login and registration. User can see their profile using secure token from [JWS](https://www.npmjs.com/package/jws).
 
+You can use the deployed app here : https://widya-rest-test.herokuapp.com/
+
 <br>
 
 ## Requirements
