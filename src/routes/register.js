@@ -6,7 +6,7 @@ const express = require("express")
 const route = express.Router()
 
 // GET REQUEST
-route.get("/register", (req, res) => { res.send("register") })
+route.get("/register", (req, res) => { res.send("use post request to register") })
 
 
 // POST REQUEST

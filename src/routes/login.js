@@ -6,7 +6,7 @@ const route = express.Router()
 
 
 // GET REQUEST
-route.get("/login", (req, res) => { res.send("login") })
+route.get("/login", (req, res) => { res.send("user post request to login") })
 
 // POST REQUEST
 route.post("/login",

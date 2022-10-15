@@ -5,8 +5,8 @@ const uri = "mongodb+srv://alhazimi:alhazimi@cluster0.0mxgk.mongodb.net/?retryWr
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 })
 
 // Setup mongo db collections
-const dbName = "Olshop"
-const collectionName = "Shopee"
+const dbName = "Widya"
+const collectionName = "test"
 const db = client.db(dbName)
 const collection = db.collection(collectionName)
 
@@ -40,17 +40,12 @@ function getUserProfile(req, res) {
         let response = res.state.createResponse(body=profile)
         res.send(response)
     })
-    // res.send(req.user)
 }
 
-// async function deleteData() {
-//     await collection.find({username: "rakkaalhazimi@gmail.com"}).toArray().then((result) => {
-//         console.log(result)
-//     })
-//     await collection.deleteMany({username: "rakkaalhazimi@gmail.com"})
-//     process.exit()
-// }
-// deleteData()
+async function deleteUser(req, res, next) {
+    await collection.deleteOne({username: req.body.username})
+    process.exit()
+}
 
 
 function throwExistsUsername() {
@@ -61,25 +56,6 @@ function throwIncorrectLogin() {
     return "Incorrect username or password"
 }
 
-
-// collection.findOne({name: 'aazz'}, (err, result) => {
-//     if (err) console.error(err)
-//     console.log(result)
-//     process.exit()
-// })
-
-// async function run() {
-//     let result = await collection.findOne()
-//     console.log(result)
-//     process.exit()
-// }
-
-// async function isNotExistsUsername(username) {
-//     let result = await collection.findOne({username: username}) === null
-//     console.log(result)
-//     process.exit()
-// }
-// isNotExistsUsername("test")
 
 module.exports = {
     collection: collection,
